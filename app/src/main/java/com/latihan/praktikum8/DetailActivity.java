@@ -29,7 +29,10 @@ public class DetailActivity extends AppCompatActivity implements
         TextView tvNIM = findViewById(R.id.tv_nim);
         TextView tvEmail = findViewById(R.id.tv_email);
         TextView tvPhone = findViewById(R.id.tv_phone);
+// Button
         Button btnPhoneCall = findViewById(R.id.btn_phone_call);
+        Button btnEmail = findViewById(R.id.btn_send_email);
+
 
 // Mengambil data dari Intent
         String name = getIntent().getStringExtra(KEY_NAME);
@@ -47,22 +50,16 @@ public class DetailActivity extends AppCompatActivity implements
         Email = email;
 
         btnPhoneCall.setOnClickListener(this);
+        btnEmail.setOnClickListener(this);
 
     }
 
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.btn_send_email){
-            Intent sendEmailIntent = new Intent(Intent.ACTION_SEND);
-            sendEmailIntent.putExtra(Intent.EXTRA_EMAIL, Email);
-            sendEmailIntent.putExtra(Intent.EXTRA_SUBJECT,"");
-            sendEmailIntent.putExtra(Intent.EXTRA_TEXT,"");
-            sendEmailIntent.setType("text/html");
-            if (sendEmailIntent.resolveActivity(getPackageManager()) != null){
-                startActivity(sendEmailIntent);
-            }else {
-                Toast.makeText(this,"Tidak ada apliaksi yang didukung",Toast.LENGTH_LONG).show();
-            }
+            Intent sendEmailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto",Email,null));
+            sendEmailIntent.putExtra(Intent.EXTRA_SUBJECT,"Intent");
+            startActivity(sendEmailIntent);
 
         }
         if (view.getId() == R.id.btn_phone_call) {
